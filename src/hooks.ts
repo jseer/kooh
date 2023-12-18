@@ -1,4 +1,4 @@
-interface IHookFn {
+export interface IHookFn {
   (...arg: any[]): Promise<any> | void;
 }
 
@@ -43,7 +43,7 @@ export class Hooks {
 
   call(name: string, ...args: any) {
     if (!this._hooks[name]) {
-      throw new Error("no hooks will be call");
+      return;
     }
     return this.callHooks.call(this, name, args);
   }
@@ -89,3 +89,5 @@ export class Hooks {
     return Promise.all(hooks.map((hook) => hook.apply(hooks, args)));
   }
 }
+
+const a = new Hooks();
