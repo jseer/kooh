@@ -9,17 +9,16 @@ export enum IHookTypes {
   asyncSeriesWaterfall = "async-series-waterfall",
   asyncParallel = "async-parallel",
 }
-
-export class Hooks {
+export class Hooks<T extends string> {
   constructor(
-    private _hookTypes: Record<string, IHookTypes> = {},
-    private _hooks: Record<string, IHookFn[]> = {}
+    private _hookTypes: Record<T, IHookTypes> = {} as Record<T, IHookTypes>,
+    private _hooks: Record<T, IHookFn[]> = {} as Record<T, IHookFn[]>
   ) {
     this._hookTypes = _hookTypes;
     this._hooks = _hooks;
   }
 
-  add(name: string, fn: IHookFn) {
+  add(name: T, fn: IHookFn) {
     this._hooks[name] = this._hooks[name] || [];
     this._hooks[name].push(fn);
     return () => {
@@ -29,7 +28,7 @@ export class Hooks {
     };
   }
 
-  remove(name: string, fn: IHookFn) {
+  remove(name: T, fn: IHookFn) {
     if (this._hooks[name]) {
       const index = this._hooks[name].indexOf(fn);
       if (index !== -1) {
@@ -41,15 +40,12 @@ export class Hooks {
     }
   }
 
-  call(name: string, ...args: any) {
-    if (!this._hooks[name]) {
-      return;
-    }
+  call(name: T, ...args: any) {
     return this.callHooks.call(this, name, args);
   }
 
-  callHooks(name: string, args: any) {
-    const hooks = this._hooks[name];
+  callHooks(name: T, args: any) {
+    const hooks = this._hooks[name] || [];
     switch (this._hookTypes[name]) {
       case IHookTypes.asyncSeries:
         return this.asyncSeries.call(this, hooks, args);
@@ -90,4 +86,3 @@ export class Hooks {
   }
 }
 
-const a = new Hooks();
