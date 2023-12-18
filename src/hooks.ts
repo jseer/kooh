@@ -12,11 +12,11 @@ export enum IHookTypes {
 
 export class Hooks {
   constructor(
-    private _hookTypes: Record<string, IHookTypes>,
-    private _hooks: Record<string, IHookFn[]>
+    private _hookTypes: Record<string, IHookTypes> = {},
+    private _hooks: Record<string, IHookFn[]> = {}
   ) {
-    this._hookTypes = _hookTypes || {};
-    this._hooks = _hooks || {};
+    this._hookTypes = _hookTypes;
+    this._hooks = _hooks;
   }
 
   add(name: string, fn: IHookFn) {
@@ -89,4 +89,3 @@ export class Hooks {
     return Promise.all(hooks.map((hook) => hook.apply(hooks, args)));
   }
 }
-
