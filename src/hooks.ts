@@ -69,7 +69,7 @@ export class Hooks<T extends string> {
   syncWaterfall(hooks: IHookFn[], args: any) {
     return hooks.reduce((args, hook) => {
       return hook.apply(hooks, args);
-    }, args);
+    }, args[0]);
   }
   asyncSeries(hooks: IHookFn[], args: any) {
     return hooks.reduce((promise, hook) => {
@@ -79,10 +79,9 @@ export class Hooks<T extends string> {
   asyncSeriesWaterfall(hooks: IHookFn[], args: any) {
     return hooks.reduce((promise, hook) => {
       return promise.then((args) => hook.apply(hooks, args));
-    }, Promise.resolve(args));
+    }, Promise.resolve(args[0]));
   }
   asyncParallel(hooks: IHookFn[], args: any) {
     return Promise.all(hooks.map((hook) => hook.apply(hooks, args)));
   }
 }
-
