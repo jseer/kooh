@@ -7,6 +7,7 @@ import SyncHook from "./SyncHook";
 import SyncBailHook from "./SyncBailHook";
 import SyncWaterfallHook from "./SyncWaterfallHook";
 import SyncConcatHook from "./SyncConcatHook";
+import Hook from "./Hook";
 
 export {
   AsyncParallelHook,
@@ -18,4 +19,5 @@ export {
   SyncBailHook,
   SyncWaterfallHook,
   SyncConcatHook,
+  Hook,
 };
