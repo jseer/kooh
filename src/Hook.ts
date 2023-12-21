@@ -1,6 +1,6 @@
 import { HookInfo, HookOpts } from "./types";
 
-class Hook<F extends Function> {
+class Hook<F extends Function = Function> {
   hooks: HookInfo<F>[];
   constructor() {
     this.hooks = [];
