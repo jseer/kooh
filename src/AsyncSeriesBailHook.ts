@@ -1,10 +1,10 @@
 import Hook from "./Hook";
-import { IAsyncHookFn } from "./types";
+import { IAsyncHookFn, AsArray } from "./types";
 
-class AsyncSeriesBailHook<T extends any[], R = any> extends Hook<
-  IAsyncHookFn<T, R>
+class AsyncSeriesBailHook<T, R> extends Hook<
+  IAsyncHookFn<AsArray<T>, R | void>
 > {
-  async call(...args: T): Promise<R | void> {
+  async call(...args: AsArray<T>): Promise<R | void> {
     let result;
     for (let hook of this.hooks) {
       result = await hook.fn!.apply(hook.context, args);

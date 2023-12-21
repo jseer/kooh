@@ -1,10 +1,8 @@
 import Hook from "./Hook";
-import { IAsyncHookFn } from "./types";
+import { AsArray, IAsyncHookFn } from "./types";
 
-class AsyncParallelHook<T extends any[], R = void> extends Hook<
-  IAsyncHookFn<T, R>
-> {
-  call(...args: T): Promise<R[]> {
+class AsyncParallelHook<T, R = void> extends Hook<IAsyncHookFn<AsArray<T>, R>> {
+  call(...args: AsArray<T>): Promise<R[]> {
     return Promise.all(
       this.hooks.map((hook) => hook.fn!.apply(hook.context, args))
     );

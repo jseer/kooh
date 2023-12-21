@@ -1,7 +1,10 @@
 export type IAsyncHookFn<T extends any[], R> = (...args: T) => Promise<R>;
 export type ISyncHookFn<T extends any[], R> = (...args: T) => R;
-export interface IHookInfo<F> {
+export interface HookOpts {
   context?: any;
-  fn?: F;
+  insert?: number,
   [key: string]: any;
 }
+export type HookInfo<F extends Function> = HookOpts & { fn: F };
+
+export type AsArray<T> = T extends any[] ? T : [T];

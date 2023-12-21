@@ -1,13 +1,11 @@
 import AsyncParallelHook from "./AsyncParallelHook";
+import { AsArray } from "./types";
 
-class AsyncParallelConcatHook<T extends any[]> extends AsyncParallelHook<
-  T,
-  any[]
-> {
-  call(...args: T) {
+class AsyncParallelConcatHook<T, R> extends AsyncParallelHook<T, R | R[]> {
+  call(...args: AsArray<T>) {
     return super
       .call(...args)
-      .then((result) => result.reduce((memo, r) => memo.concat(r), []));
+      .then((result) => result.reduce<R[]>((memo, r) => memo.concat(r), []));
   }
 }
 

@@ -1,8 +1,8 @@
 import Hook from "./Hook";
-import { ISyncHookFn } from "./types";
+import { AsArray, ISyncHookFn } from "./types";
 
-class SyncHook<T extends any[], R = void> extends Hook<ISyncHookFn<T, R>> {
-  call(...args: T): void {
+class SyncHook<T> extends Hook<ISyncHookFn<AsArray<T>, void>> {
+  call(...args: AsArray<T>): void {
     for (let hook of this.hooks) {
       hook.fn!.apply(hook.context, args);
     }
