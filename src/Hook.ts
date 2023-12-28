@@ -18,11 +18,13 @@ class Hook<F extends Function = Function> {
     return this.hooks.splice(index, 1);
   }
 
-  withOptions(options: HookOpts) {
+  withOptions(options: HookOpts): {
+    add: Hook<F>["add"];
+    withOptions: Hook<F>["withOptions"];
+  } {
     const mergeOptions = (opts: HookOpts) => Object.assign({}, options, opts);
     return {
       add: (fn: F, opts: HookOpts) => this.add(fn, mergeOptions(opts)),
-      remove: this.remove.bind(this),
       withOptions: (opts: HookOpts) => this.withOptions(mergeOptions(opts)),
     };
   }
