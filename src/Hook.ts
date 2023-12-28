@@ -19,11 +19,12 @@ class Hook<F extends Function = Function> {
   }
 
   withOptions(options: HookOpts) {
-    const oldAdd = this.add;
-    this.add = function (fn: F, opts: HookOpts = {}) {
-      return oldAdd.call(this, fn, Object.assign({}, options, opts));
+    const mergeOptions = (opts: HookOpts) => Object.assign({}, options, opts);
+    return {
+      add: (fn: F, opts: HookOpts) => this.add(fn, mergeOptions(opts)),
+      remove: this.remove.bind(this),
+      withOptions: (opts: HookOpts) => this.withOptions(mergeOptions(opts)),
     };
-    return this;
   }
 }
 
